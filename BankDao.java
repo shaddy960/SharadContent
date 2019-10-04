@@ -1,10 +1,12 @@
-package com.cg.ibs.im.dao;
+package com.cg.ibs.investment.dao;
+import java.util.Map;
 
-import com.cg.ibs.exception.IBSException;
-import com.cg.ibs.im.bean.MutualFund;
+import com.cg.ibs.investment.bean.*;
+import com.cg.ibs.investment.exception.IBSException;
 
 public interface BankDao {
- void updateGoldPrice(double x) throws IBSException;
- void updateSilverPrice(double y) throws IBSException;
- void updateMF(MutualFund z);
+	 void updateGoldPrice(double x) throws IBSException;
+	 void updateSilverPrice(double y) throws IBSException;
+	 void updateMF(Map<String, MutualFund> z);
+	
 }

@@ -1,17 +1,15 @@
-package com.cg.ibs.im.dao;
-
+package com.cg.ibs.investment.dao;
+import java.util.Map;
 import java.util.Set;
 
 import com.cg.ibs.common.bean.TransactionBean;
-import com.cg.ibs.exception.IBSException;
-import com.cg.ibs.im.bean.InvestmentBean;
-import com.cg.ibs.im.bean.MutualFund;
+import com.cg.ibs.investment.bean.*;
+import com.cg.ibs.investment.exception.IBSException;
 
 public interface ClientDao {
-double viewGoldPrice() throws IBSException;
-double viewSilverPrice() throws IBSException;
-InvestmentBean viewInvestments();
-Set<MutualFund> viewMF();
-TransactionBean updateTransaction();
-
+	double viewGoldPrice() throws IBSException;
+	double viewSilverPrice() throws IBSException;
+	InvestmentBean viewInvestments(String uCI);
+	Map<String, MutualFund> viewMF();
+	void updateTransaction(String uCI, TransactionBean trxn);
 }
