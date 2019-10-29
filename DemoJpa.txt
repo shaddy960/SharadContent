@@ -1,0 +1,66 @@
+AdditionService as=new AdditionService();
+		CustomerBean cs=new CustomerBean();
+		cs.setAadharNumber("123412341234");
+		cs.setApplicantId(1020);
+		cs.setDateofBirth(LocalDate.of(1998, 6, 24));
+		cs.setEmailId("abc@gh.com");
+		cs.setFatherName("Father1");
+		cs.setFirstName("First1");
+		cs.setGender(Gender.MALE);
+		cs.setAlternateMobileNumber("9874561230");
+		cs.setLastname("Last1");
+		cs.setMobileNumber("9874563210");
+		cs.setMotherName("Mother1");
+		cs.setPanNumber("PAN12345");
+		cs.setPassword("password1");
+		cs.setUci(new BigInteger("1234123412341234"));
+		cs.setUserId("user1");
+		
+		
+		AccountBean ab=new AccountBean();
+		ab.setAccCreationDate(LocalDate.of(2010, 2, 24));
+		ab.setAccNo(new BigInteger("12341234123"));
+		ab.setAccStatus(AccountStatus.OPEN);
+		ab.setAccType(AccountType.SAVINGS);
+		ab.setBalance(new BigDecimal(120000));
+		ab.setOpenBalance(new BigDecimal(5000));
+		ab.setTrans_Pwd("transpwd");
+		ab.setUci(new BigInteger("1234123412341234"));
+		
+		AccountHoldingBean hb=new AccountHoldingBean();
+		hb.setAccount(ab);
+		hb.setCustomer(cs);
+		hb.setaHId(new Long("5050"));
+		hb.setType(AccountHoldingType.INDIVIDUAL);
+		as.addAccHold(hb);
+		
+
+
+--------------------------------------------------------------------------------
+AdditionService as=new AdditionService();
+		FetchService fs=new FetchService();
+		BankMutualFund bk=new BankMutualFund();
+		bk=fs.getBMFbyPlanId(10002);
+		Set<MutualFund> mfset=new HashSet<>();
+		MutualFund mf=new MutualFund();
+		mf=fs.getMFbyId(101);
+		mfset.add(mf);
+		mf.setBankMutualFund(bk);
+		mf.setMfAmount(new Double(10000));
+		mf.setMfUnits(new Double(20));
+		mf.setOpeningDate(LocalDate.now());
+		mfset.add(mf);
+		
+		AccountBean acc=new AccountBean();
+		acc=fs.getAccByAccNum(new BigInteger("12341234123"));
+		
+		InvestmentBean inv=new InvestmentBean();
+		inv.setFunds(mfset);
+		inv.setAccount(acc);
+		inv.setBalance(acc.getBalance());
+		inv.setCustomer(fs.getCustomerByUci(acc.getUci()));
+		inv.setGoldunits(new Double(100));
+		inv.setSilverunits(new Double(2000));
+		as.addInvestment(inv);
+		
+		
