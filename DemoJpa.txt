@@ -62,5 +62,12 @@ AdditionService as=new AdditionService();
 		inv.setGoldunits(new Double(100));
 		inv.setSilverunits(new Double(2000));
 		as.addInvestment(inv);
+--------------------------------------------------------------------------------------------------------------------------------------
+AdditionService as=new AdditionService();
+		BankMutualFund bk=new BankMutualFund();
+		bk.setMfPlanId(10002);
+		bk.setNav(new Double(400));
+		bk.setTitle("IBS_Adult");
+		as.addBankMutualFund(bk);
 		
 		
