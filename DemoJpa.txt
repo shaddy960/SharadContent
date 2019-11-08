@@ -43,12 +43,17 @@ AdditionService as=new AdditionService();
 		bk=fs.getBMFbyPlanId(10002);
 		Set<MutualFund> mfset=new HashSet<>();
 		MutualFund mf=new MutualFund();
-		mf=fs.getMFbyId(101);
-		mfset.add(mf);
+		//mf=fs.getMFbyId(101);
+		//mfset.add(mf);
 		mf.setBankMutualFund(bk);
-		mf.setMfAmount(new Double(10000));
+		mf.setMfAmount(new Double(15000));
 		mf.setMfUnits(new Double(20));
 		mf.setOpeningDate(LocalDate.now());
+		mf.setDuration(12);
+		mf.setFolioNumber(101);
+		mf.setMfUnits(15000/bk.getNav());
+		mf.setStatus(true);
+		
 		mfset.add(mf);
 		
 		AccountBean acc=new AccountBean();
@@ -57,7 +62,6 @@ AdditionService as=new AdditionService();
 		InvestmentBean inv=new InvestmentBean();
 		inv.setFunds(mfset);
 		inv.setAccount(acc);
-		inv.setBalance(acc.getBalance());
 		inv.setCustomer(fs.getCustomerByUci(acc.getUci()));
 		inv.setGoldunits(new Double(100));
 		inv.setSilverunits(new Double(2000));
@@ -66,8 +70,13 @@ AdditionService as=new AdditionService();
 AdditionService as=new AdditionService();
 		BankMutualFund bk=new BankMutualFund();
 		bk.setMfPlanId(10002);
-		bk.setNav(new Double(400));
-		bk.setTitle("IBS_Adult");
+		bk.setNav(new Double(300));
+		bk.setTitle("IBS_Savings");
+		bk.setLaunchDate(LocalDate.of(2014, 1, 20));
+		bk.setMinAmtDir(new Double(5000));
+		bk.setMinAmtSip(new Double(500));
+		bk.setSipStatus(true);
+		bk.setStatus(true);
 		as.addBankMutualFund(bk);
 		
 		
