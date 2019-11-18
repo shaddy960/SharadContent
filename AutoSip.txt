@@ -1,0 +1,188 @@
+
+	@Override
+	@Transactional
+	public Boolean autoSip(String userId) throws IBSException {
+
+		Boolean status = false;
+		LocalDate todayDate = LocalDate.now();
+		BigInteger uci = cs.getUciByUserId(userId);
+		InvestmentBean inv = invdao.getInvestmentByUci(uci);
+		Set<MutualFund> mfSet = inv.getFunds();
+		ConcurrentHashMap<Integer, MutualFund> mfFunds=new ConcurrentHashMap<Integer, MutualFund>();
+		for (MutualFund mf : mfSet) {
+			mfFunds.put(mf.getFolioNumber(), mf);
+		}
+		
+		MutualFund corrMf = new MutualFund();
+
+		for (MutualFund mutualFund : mfFunds.values()) {
+			mutualFund.getOpeningDate();
+			Frequency freq = mutualFund.getFrequency();
+			LocalDate dtOld = mutualFund.getLastInstDate();
+			if (freq != null && mutualFund.getClosingDate() == null) {
+				switch (freq) {
+				case DAILY:
+
+					if (todayDate.compareTo(mutualFund.getLastInstDate().plusDays(1)) == 0
+							|| todayDate.compareTo(mutualFund.getOpeningDate()) == 0) {
+
+						Double amt = mutualFund.getMfAmount();
+						BigDecimal newBal = inv.getAccount().getBalance().subtract(BigDecimal.valueOf(amt));
+						inv.getAccount().setBalance(newBal);
+						Double newUnits = amt
+								/ viewMFPlans().get(mutualFund.getBankMutualFund().getMfPlanId()).getNav();
+						mutualFund.setMfUnits(mutualFund.getMfUnits() + newUnits);
+						mutualFund.setLastInstDate(todayDate);
+						mutualFund.setInstallments(mutualFund.getInstallments() - 1);
+
+						Set<TransactionBean> tBeans = inv.getAccount().getTransaction();
+						InvestmentTransaction tBean = new InvestmentTransaction();
+						// tBean.setTransactionId((int) Math.round(Math.random() * 10000));
+						tBean.setTransactionAmount(new BigDecimal(amt));
+						tBean.setTransactionDate(LocalDateTime.now());
+						tBean.setAccount(inv.getAccount());
+						tBean.setTrxBalance(newBal);
+						tBean.setTransactionDescription("invested in mutualfunds sip");
+						tBean.setTransactionMode(TransactionMode.ONLINE);
+						tBean.setTransactionType(TransactionType.DEBIT);
+						tBean.setUnits(newUnits);
+						tBean.setPricePerUnit(viewMFPlans().get(mutualFund.getBankMutualFund().getMfPlanId()).getNav());
+						tBeans.add(tBean);
+						invdao.updateInvestment(inv);
+
+					}
+					break;
+				case MONTHLY:
+
+					if (todayDate.compareTo(mutualFund.getLastInstDate().plusMonths(1)) == 0
+							|| todayDate.compareTo(mutualFund.getOpeningDate()) == 0) {
+
+						Double amt = mutualFund.getMfAmount();
+						BigDecimal newBal = inv.getAccount().getBalance().subtract(BigDecimal.valueOf(amt));
+						inv.getAccount().setBalance(newBal);
+						Double newUnits = amt
+								/ viewMFPlans().get(mutualFund.getBankMutualFund().getMfPlanId()).getNav();
+						mutualFund.setMfUnits(mutualFund.getMfUnits() + newUnits);
+						mutualFund.setLastInstDate(todayDate);
+						mutualFund.setInstallments(mutualFund.getInstallments() - 1);
+
+						Set<TransactionBean> tBeans = inv.getAccount().getTransaction();
+						InvestmentTransaction tBean = new InvestmentTransaction();
+						// tBean.setTransactionId((int) Math.round(Math.random() * 10000));
+						tBean.setTransactionAmount(new BigDecimal(amt));
+						tBean.setTransactionDate(LocalDateTime.now());
+						tBean.setAccount(inv.getAccount());
+						tBean.setTrxBalance(newBal);
+						tBean.setTransactionDescription("invested in mutualfunds sip");
+						tBean.setTransactionMode(TransactionMode.ONLINE);
+						tBean.setTransactionType(TransactionType.DEBIT);
+						tBean.setUnits(newUnits);
+						tBean.setPricePerUnit(viewMFPlans().get(mutualFund.getBankMutualFund().getMfPlanId()).getNav());
+						tBeans.add(tBean);
+						
+						invdao.updateInvestment(inv);
+
+					}
+					break;
+
+				case HALFYEARLY:
+					if (todayDate.compareTo(mutualFund.getLastInstDate().plusMonths(6)) == 0
+							|| todayDate.compareTo(mutualFund.getOpeningDate()) == 0) {
+
+						Double amt = mutualFund.getMfAmount();
+						BigDecimal newBal = inv.getAccount().getBalance().subtract(BigDecimal.valueOf(amt));
+						inv.getAccount().setBalance(newBal);
+						Double newUnits = amt
+								/ viewMFPlans().get(mutualFund.getBankMutualFund().getMfPlanId()).getNav();
+						mutualFund.setMfUnits(mutualFund.getMfUnits() + newUnits);
+						mutualFund.setLastInstDate(todayDate);
+						mutualFund.setInstallments(mutualFund.getInstallments() - 1);
+
+						Set<TransactionBean> tBeans = inv.getAccount().getTransaction();
+						InvestmentTransaction tBean = new InvestmentTransaction();
+						// tBean.setTransactionId((int) Math.round(Math.random() * 10000));
+						tBean.setTransactionAmount(new BigDecimal(amt));
+						tBean.setTransactionDate(LocalDateTime.now());
+						tBean.setAccount(inv.getAccount());
+						tBean.setTrxBalance(newBal);
+						tBean.setTransactionDescription("invested in mutualfunds sip");
+						tBean.setTransactionMode(TransactionMode.ONLINE);
+						tBean.setTransactionType(TransactionType.DEBIT);
+						tBean.setUnits(newUnits);
+						tBean.setPricePerUnit(viewMFPlans().get(mutualFund.getBankMutualFund().getMfPlanId()).getNav());
+						tBeans.add(tBean);
+						invdao.updateInvestment(inv);
+
+					}
+					break;
+
+				case QUATERLY:
+					if (todayDate.compareTo(mutualFund.getLastInstDate().plusMonths(3)) == 0
+							|| todayDate.compareTo(mutualFund.getOpeningDate()) == 0) {
+
+						Double amt = mutualFund.getMfAmount();
+						BigDecimal newBal = inv.getAccount().getBalance().subtract(BigDecimal.valueOf(amt));
+						inv.getAccount().setBalance(newBal);
+						Double newUnits = amt
+								/ viewMFPlans().get(mutualFund.getBankMutualFund().getMfPlanId()).getNav();
+						mutualFund.setMfUnits(mutualFund.getMfUnits() + newUnits);
+						mutualFund.setLastInstDate(todayDate);
+						mutualFund.setInstallments(mutualFund.getInstallments() - 1);
+
+						Set<TransactionBean> tBeans = inv.getAccount().getTransaction();
+						InvestmentTransaction tBean = new InvestmentTransaction();
+						// tBean.setTransactionId((int) Math.round(Math.random() * 10000));
+						tBean.setTransactionAmount(new BigDecimal(amt));
+						tBean.setTransactionDate(LocalDateTime.now());
+						tBean.setAccount(inv.getAccount());
+						tBean.setTrxBalance(newBal);
+						tBean.setTransactionDescription("invested in mutualfunds sip");
+						tBean.setTransactionMode(TransactionMode.ONLINE);
+						tBean.setTransactionType(TransactionType.DEBIT);
+						tBean.setUnits(newUnits);
+						tBean.setPricePerUnit(viewMFPlans().get(mutualFund.getBankMutualFund().getMfPlanId()).getNav());
+						tBeans.add(tBean);
+						invdao.updateInvestment(inv);
+
+					}
+					break;
+
+				case ANNUALLY:
+					if (todayDate.compareTo(mutualFund.getLastInstDate().plusYears(1)) == 0
+							|| todayDate.compareTo(mutualFund.getOpeningDate()) == 0) {
+
+						Double amt = mutualFund.getMfAmount();
+						BigDecimal newBal = inv.getAccount().getBalance().subtract(BigDecimal.valueOf(amt));
+						inv.getAccount().setBalance(newBal);
+						Double newUnits = amt
+								/ viewMFPlans().get(mutualFund.getBankMutualFund().getMfPlanId()).getNav();
+						mutualFund.setMfUnits(mutualFund.getMfUnits() + newUnits);
+						mutualFund.setLastInstDate(todayDate);
+						mutualFund.setInstallments(mutualFund.getInstallments() - 1);
+
+						Set<TransactionBean> tBeans = inv.getAccount().getTransaction();
+						InvestmentTransaction tBean = new InvestmentTransaction();
+						// tBean.setTransactionId((int) Math.round(Math.random() * 10000));
+						tBean.setTransactionAmount(new BigDecimal(amt));
+						tBean.setTransactionDate(LocalDateTime.now());
+						tBean.setAccount(inv.getAccount());
+						tBean.setTrxBalance(newBal);
+						tBean.setTransactionDescription("invested in mutualfunds sip");
+						tBean.setTransactionMode(TransactionMode.ONLINE);
+						tBean.setTransactionType(TransactionType.DEBIT);
+						tBean.setUnits(newUnits);
+						tBean.setPricePerUnit(viewMFPlans().get(mutualFund.getBankMutualFund().getMfPlanId()).getNav());
+						tBeans.add(tBean);
+						invdao.updateInvestment(inv);
+
+					}
+					break;
+
+				default:
+					break;
+				}
+			}
+		}
+
+		return status;
+	}
