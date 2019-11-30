@@ -1,0 +1,49 @@
+-Install nodejs from web
+-install angular cli
+-add npm to path
+-Now to create new Angular project
+1.cmd-go to parent directory
+2.type- ng new proj_name
+3.after generation type-code . to open visual studio code
+4.type -ng serve --port 9999 -o = this line is used to run on web browser on port num 9999 
+
+---ng g component component_name-for creating new component in cmd
+
+---for bootstrap type in cmd==npm install bootstrap jquery popper.js --save
+
+
+
+-Folder structure
+1.package.json-where all libraries are defined or like pom.xml it has dependencies
+2.use ctrl+` to open angular cli and ctrl+c to close it
+3.type-npm install -to download dependencies in node_modules 
+
+--Angular is based on modules
+--Inside each modul therer are number of components
+--App module is the root module, rest modules are feature module
+
+--Components
+1.it consists of templates(html file) which include binding and directives.
+2.html file is associated with class written in typescript(ts). It  consists of properties and methods of class
+3.component contains a metadata file which adds decorator to class and view
+4.decorator is a functio that adds metadata to class, its properties or its methods. It is prefixed by @ sign eg. @Component
+5.inside @Component we use selector to refrence it else where
+6.@NgModule decorator module is Angular Module in which properties are put arrays. Among these properties we put declarations properties where we define which module are imported to this module.
+7. in imports property array we put all exterbal modules we want to include in our module
+
+
+--Interpolation ={{sfsdf}}  used to access objects
+--Directives
+1.*ngIf -if logig
+2.*ngFor -for logic *for structural directives
+
+--Data Bindings
+1.property binding in [] braces
+2.event binding () braces
+3.two way binding [(ngModel)]braces
+4.pipes transform incoming data to user friendly formats , | after properties
+
+--Services
+1.functionality across varius components
+2.put providedin as root
+3.register it to constructors of component classes to use its methods
